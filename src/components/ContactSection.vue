@@ -2,10 +2,11 @@
 import { ref } from "vue";
 
 const showSuccess = ref(false);
-
+const loading = ref(false);
 function handleSubmit(e) {
   e.preventDefault();
   const form = e.target;
+  loading.value = true;
   fetch(form.action, {
     method: "POST",
     body: new FormData(form),
@@ -14,10 +15,13 @@ function handleSubmit(e) {
     .then(() => {
       showSuccess.value = true;
       form.reset();
-      setTimeout(() => (showSuccess.value = false), 4000);
     })
     .catch(() => {
       alert("Terjadi kesalahan, silakan coba lagi.");
+    })
+    .finally(() => {
+      loading.value = false;
+      setTimeout(() => (showSuccess.value = false), 6000);
     });
 }
 </script>
@@ -150,9 +154,14 @@ function handleSubmit(e) {
           </div>
           <button
             type="submit"
-            class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition w-full"
+            class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition w-full flex items-center justify-center"
+            :disabled="loading"
           >
-            Send Message
+            <span v-if="loading" class="animate-spin mr-2">
+              <i class="fa-solid fa-spinner"></i>
+            </span>
+            <span v-if="!loading">Send Message</span>
+            <span v-else>Sending...</span>
           </button>
         </form>
         <transition name="fade">
