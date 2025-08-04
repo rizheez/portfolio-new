@@ -107,7 +107,7 @@ function handleSubmit(e) {
       </div>
 
       <!-- Form Kontak -->
-      <div class="md:w-1/2 md:pl-12">
+      <div class="w-full md:w-1/2 md:pl-12">
         <form
           action="https://formsubmit.co/rezamuhammad980@gmail.com"
           method="POST"
