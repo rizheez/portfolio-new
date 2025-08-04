@@ -1,14 +1,32 @@
-import './assets/main.css'
+import "./assets/main.css";
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import "aos/dist/aos.css";
+import App from "./App.vue";
+import router from "./router";
+import VueScrollTo from "vue-scrollto";
+import ScrollSpy from "vue3-scroll-spy";
+import { MotionPlugin } from "@vueuse/motion";
 
-import App from './App.vue'
-import router from './router'
+const app = createApp(App);
 
-const app = createApp(App)
+app.use(createPinia());
+app.use(router);
+app.use(MotionPlugin);
+app.use(ScrollSpy);
+app.use(VueScrollTo, {
+  container: "body",
+  duration: 500,
+  easing: "ease",
+  offset: 0,
+  force: true,
+  cancelable: true,
+  onStart: false,
+  onDone: false,
+  onCancel: false,
+  x: false,
+  y: true,
+});
 
-app.use(createPinia())
-app.use(router)
-
-app.mount('#app')
+app.mount("#app");
