@@ -1,15 +1,38 @@
+<script setup>
+import { ref } from "vue";
+
+const showSuccess = ref(false);
+
+function handleSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  fetch(form.action, {
+    method: "POST",
+    body: new FormData(form),
+    headers: { Accept: "application/json" },
+  })
+    .then(() => {
+      showSuccess.value = true;
+      form.reset();
+      setTimeout(() => (showSuccess.value = false), 4000);
+    })
+    .catch(() => {
+      alert("Terjadi kesalahan, silakan coba lagi.");
+    });
+}
+</script>
+
 <template>
   <section id="contact" class="py-16 bg-white px-4">
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start gap-12">
       <!-- Kontak Ikon -->
       <div class="md:w-1/2">
-        <h2 class="text-3xl font-bold mb-6">Contact</h2>
+        <h2 class="text-3xl font-bold mb-6" data-aos="fade-down">Contact</h2>
         <p class="text-gray-600 mb-8">Feel free to reach out through any of the platforms below:</p>
 
         <div class="flex flex-col md:flex-row">
           <div class="md:w-1/2 mb-10 md:mb-0">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Contact Information</h3>
-            <div class="space-y-4">
+            <div class="space-y-4" data-aos="fade-right">
               <div class="flex items-start">
                 <svg
                   class="w-5 h-5 text-blue-500 mr-3 mt-1"
@@ -80,9 +103,11 @@
           action="https://formsubmit.co/rezamuhammad980@gmail.com"
           method="POST"
           class="space-y-6"
+          @submit="handleSubmit"
+          data-aos="fade-left"
         >
           <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_next" value="https://yourdomain.com/thanks.html" />
+          <input type="hidden" name="_next" value="#" />
 
           <div>
             <label for="name" class="block text-gray-700 mb-2">Name</label>
@@ -130,7 +155,28 @@
             Send Message
           </button>
         </form>
+        <transition name="fade">
+          <div
+            v-if="showSuccess"
+            class="mt-6 px-4 py-3 bg-green-100 text-green-800 rounded-lg shadow text-center font-semibold"
+          >
+            <!-- 🎉 Pesan kamu berhasil dikirim! Terima kasih sudah menghubungi saya. -->
+            <!-- make in english -->
+            🎉 Your message has been sent successfully! Thank you for contacting me.
+          </div>
+        </transition>
       </div>
     </div>
   </section>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
