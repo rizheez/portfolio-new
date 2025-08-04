@@ -4,7 +4,7 @@
       <h2 class="text-3xl font-bold text-center mb-12" data-aos="fade-down">About Me</h2>
       <div class="flex flex-col md:flex-row items-center">
         <!-- Gambar Profil -->
-        <div class="md:w-1/3 mb-8 md:mb-0 mr-28 flex justify-center" data-aos="fade-right">
+        <div class="md:w-1/3 mb-8 md:mb-0 md:mr-28 flex justify-center" data-aos="fade-right">
           <img
             :src="img"
             alt="working on a laptop in a cozy cafe environment"
