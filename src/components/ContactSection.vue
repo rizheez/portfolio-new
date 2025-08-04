@@ -80,19 +80,24 @@ function handleSubmit(e) {
             <div class="mt-8">
               <h3 class="text-xl font-semibold text-gray-800 mb-4">Follow Me</h3>
               <div class="flex space-x-4">
-                <a href="#" class="text-gray-600 hover:text-blue-500">
+                <a href="#" target="_blank" class="text-gray-600 hover:text-blue-500">
                   <i class="fa-brands fa-square-facebook fa-2xl"></i>
                 </a>
-                <a href="#" class="text-gray-600 hover:text-blue-500">
+                <a href="#" target="_blank" class="text-gray-600 hover:text-blue-500">
                   <i class="fa-brands fa-square-instagram fa-2xl"></i>
                 </a>
                 <a
                   href="https://www.linkedin.com/in/muhammad-reza-saputra-b6a81726b"
                   class="text-gray-600 hover:text-blue-500"
+                  target="_blank"
                 >
                   <i class="fa-brands fa-linkedin fa-2xl"></i>
                 </a>
-                <a href="https://github.com/rizheez" class="text-gray-600 hover:text-blue-500">
+                <a
+                  target="_blank"
+                  href="https://github.com/rizheez"
+                  class="text-gray-600 hover:text-blue-500"
+                >
                   <i class="fa-brands fa-square-github fa-2xl"></i>
                 </a>
               </div>

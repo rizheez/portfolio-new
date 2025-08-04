@@ -6,11 +6,10 @@ import ProjectSection from "@/components/ProjectSection.vue";
 import ContactSection from "@/components/ContactSection.vue";
 import AOS from "aos";
 import { onMounted } from "vue";
-
 onMounted(() => {
   AOS.init({
     duration: 600,
-    once: true,
+    once: false,
   });
 });
 </script>
