@@ -1,7 +1,7 @@
 <template>
   <footer class="bg-gray-800 text-white py-6">
     <div class="container mx-auto px-4 text-center">
-      <p>&copy; {{ year }} Muhammad Reza Saputra. All rights reserved.</p>
+      <p>&copy; {{ year }} Made with ❤️ by Muhammad Reza Saputra.</p>
     </div>
   </footer>
 </template>
