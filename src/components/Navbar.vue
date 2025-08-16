@@ -1,12 +1,12 @@
 <template>
-  <nav class="fixed w-full bg-white shadow-sm z-10">
-    <div class="container mx-auto px-6 py-4">
+  <nav class="fixed w-full bg-white shadow-sm z-10 left-0 right-0">
+    <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
       <div class="flex justify-between items-center">
         <!-- Brand -->
-        <div class="text-2xl font-bold text-blue-500">MyPortfolio</div>
+        <div class="text-xl sm:text-2xl font-bold text-blue-500">MyPortfolio</div>
 
         <!-- Desktop Menu -->
-        <div class="hidden md:flex space-x-8">
+        <div class="hidden md:flex space-x-6 lg:space-x-8">
           <a href="#home" v-scroll-to="'#home'" :class="linkClass('home')"> Home </a>
           <a href="#about" v-scroll-to="'#about'" :class="linkClass('about')"> About </a>
           <a href="#projects" v-scroll-to="'#projects'" :class="linkClass('projects')">
@@ -16,7 +16,10 @@
         </div>
 
         <!-- Mobile Toggle Button -->
-        <button @click="toggleMenu" class="md:hidden focus:outline-none">
+        <button
+          @click="toggleMenu"
+          class="md:hidden focus:outline-none p-2 rounded-md hover:bg-gray-100 transition-colors touch-manipulation"
+        >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
@@ -29,40 +32,54 @@
       </div>
 
       <!-- Mobile Menu -->
-      <div v-show="menuOpen" class="md:hidden mt-2">
-        <a
-          href="#home"
-          v-scroll-to="'#home'"
-          @click="menuOpen = false"
-          :class="linkClass('home', true)"
+      <transition
+        enter-active-class="transition-all duration-300 ease-out"
+        enter-from-class="opacity-0 transform -translate-y-2"
+        enter-to-class="opacity-100 transform translate-y-0"
+        leave-active-class="transition-all duration-200 ease-in"
+        leave-from-class="opacity-100 transform translate-y-0"
+        leave-to-class="opacity-0 transform -translate-y-2"
+      >
+        <div
+          v-show="menuOpen"
+          class="md:hidden mt-3 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden"
         >
-          Home
-        </a>
-        <a
-          href="#about"
-          v-scroll-to="'#about'"
-          @click="menuOpen = false"
-          :class="linkClass('about', true)"
-        >
-          About
-        </a>
-        <a
-          href="#projects"
-          v-scroll-to="'#projects'"
-          @click="menuOpen = false"
-          :class="linkClass('projects', true)"
-        >
-          Projects
-        </a>
-        <a
-          href="#contact"
-          v-scroll-to="'#contact'"
-          @click="menuOpen = false"
-          :class="linkClass('contact', true)"
-        >
-          Contact
-        </a>
-      </div>
+          <div class="py-1">
+            <a
+              href="#home"
+              v-scroll-to="'#home'"
+              @click="menuOpen = false"
+              :class="linkClass('home', true)"
+            >
+              Home
+            </a>
+            <a
+              href="#about"
+              v-scroll-to="'#about'"
+              @click="menuOpen = false"
+              :class="linkClass('about', true)"
+            >
+              About
+            </a>
+            <a
+              href="#projects"
+              v-scroll-to="'#projects'"
+              @click="menuOpen = false"
+              :class="linkClass('projects', true)"
+            >
+              Projects
+            </a>
+            <a
+              href="#contact"
+              v-scroll-to="'#contact'"
+              @click="menuOpen = false"
+              :class="linkClass('contact', true)"
+            >
+              Contact
+            </a>
+          </div>
+        </div>
+      </transition>
     </div>
     <!-- Progress Bar -->
     <div class="w-full h-1 bg-gray-200">
@@ -117,20 +134,30 @@ const onScroll = () => {
 
 onMounted(() => {
   window.addEventListener("scroll", onScroll);
+  window.addEventListener("resize", handleResize);
   updateScrollProgress();
   updateActiveSection();
 });
 
 onUnmounted(() => {
   window.removeEventListener("scroll", onScroll);
+  window.removeEventListener("resize", handleResize);
 });
+
+// Handle window resize to close mobile menu on desktop
+const handleResize = () => {
+  if (window.innerWidth >= 768 && menuOpen.value) {
+    menuOpen.value = false;
+  }
+};
 
 // Dynamic class
 const linkClass = (id, isMobile = false) => {
-  const base = isMobile ? "block py-2  hover:text-blue-500" : "nav-link  hover:text-blue-500";
+  const base = isMobile
+    ? "block px-4 py-3 text-sm font-medium transition-colors duration-200 hover:bg-blue-50 active:bg-blue-100 rounded-md mx-2 touch-manipulation"
+    : "nav-link hover:text-blue-500";
   const active =
     activeSection.value === id ? "text-blue-500 font-semibold active" : "text-gray-600";
-  console.log({ base, active }, activeSection.value);
   return `${base} ${active}`;
 };
 </script>
@@ -155,5 +182,58 @@ const linkClass = (id, isMobile = false) => {
 }
 .nav-link.active::after {
   width: 100%;
+}
+
+// Fix white line issue and prevent overflow
+nav {
+  overflow-x: hidden;
+  width: 100vw;
+  left: 0;
+  right: 0;
+}
+
+// Ensure container doesn't cause overflow
+.container {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+// Mobile menu improvements
+@media (max-width: 768px) {
+  nav {
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+
+  // Ensure mobile menu doesn't interfere with content
+  .md\\:hidden {
+    position: relative;
+    z-index: 20;
+  }
+}
+
+// Improve touch targets on mobile
+@media (max-width: 768px) {
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+// Prevent horizontal scroll on all screen sizes
+@media (min-width: 0px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  nav {
+    overflow-x: hidden;
+  }
 }
 </style>

@@ -117,5 +117,14 @@ const projects = [
     liveUrl: null,
     codeUrl: "https://github.com/rizheez/sistem-penjualan",
   },
+  {
+    title: "Movie List",
+    image: new URL("@/assets/images/projects/movie.png", import.meta.url).href,
+    description:
+      "A movie list application that allows users to search for movies and view details.",
+    technologies: ["React", "TMDB API", "Tailwind CSS"],
+    liveUrl: null,
+    codeUrl: "https://github.com/rizheez/react-movies-list",
+  },
 ];
 </script>
