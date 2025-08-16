@@ -1,6 +1,6 @@
 <template>
   <section id="projects" class="py-16 bg-gray-100 px-4">
-    <div class="container mx-auto">
+    <div class="max-w-6xl mx-auto">
       <h2 class="text-3xl font-bold text-center mb-12" data-aos="fade-down" data-aos-duration="700">
         My Projects
       </h2>
