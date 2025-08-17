@@ -5,7 +5,7 @@
     role="banner"
     aria-labelledby="hero-heading"
   >
-    <!-- Avatar -->
+    <!-- Avatar with optimized loading -->
     <img
       :src="avatar"
       alt="Muhammad Reza Saputra - Full Stack Developer"
@@ -14,6 +14,8 @@
       loading="eager"
       width="160"
       height="160"
+      fetchpriority="high"
+      decoding="async"
     />
 
     <header>

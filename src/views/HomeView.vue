@@ -1,17 +1,12 @@
 <script setup>
 import TheWelcome from "../components/TheWelcome.vue";
 import HomeSection from "@/components/HomeSection.vue";
-import AboutSection from "@/components/AboutSection.vue";
-import ProjectSection from "@/components/ProjectSection.vue";
-import ContactSection from "@/components/ContactSection.vue";
-import AOS from "aos";
-import { onMounted } from "vue";
-onMounted(() => {
-  AOS.init({
-    duration: 600,
-    once: false,
-  });
-});
+import { defineAsyncComponent } from "vue";
+
+// Lazy load non-critical sections
+const AboutSection = defineAsyncComponent(() => import("@/components/AboutSection.vue"));
+const ProjectSection = defineAsyncComponent(() => import("@/components/ProjectSection.vue"));
+const ContactSection = defineAsyncComponent(() => import("@/components/ContactSection.vue"));
 </script>
 
 <template>
