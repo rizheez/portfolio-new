@@ -7,12 +7,14 @@
 
         <!-- Desktop Menu -->
         <div class="hidden md:flex space-x-6 lg:space-x-8">
-          <a href="#home" v-scroll-to="'#home'" :class="linkClass('home')"> Home </a>
-          <a href="#about" v-scroll-to="'#about'" :class="linkClass('about')"> About </a>
-          <a href="#projects" v-scroll-to="'#projects'" :class="linkClass('projects')">
+          <a href="#home" @click="scrollToSection('home')" :class="linkClass('home')"> Home </a>
+          <a href="#about" @click="scrollToSection('about')" :class="linkClass('about')"> About </a>
+          <a href="#projects" @click="scrollToSection('projects')" :class="linkClass('projects')">
             Projects
           </a>
-          <a href="#contact" v-scroll-to="'#contact'" :class="linkClass('contact')"> Contact </a>
+          <a href="#contact" @click="scrollToSection('contact')" :class="linkClass('contact')">
+            Contact
+          </a>
         </div>
 
         <!-- Mobile Toggle Button -->
@@ -47,32 +49,40 @@
           <div class="py-1">
             <a
               href="#home"
-              v-scroll-to="'#home'"
-              @click="menuOpen = false"
+              @click="
+                scrollToSection('home');
+                menuOpen = false;
+              "
               :class="linkClass('home', true)"
             >
               Home
             </a>
             <a
               href="#about"
-              v-scroll-to="'#about'"
-              @click="menuOpen = false"
+              @click="
+                scrollToSection('about');
+                menuOpen = false;
+              "
               :class="linkClass('about', true)"
             >
               About
             </a>
             <a
               href="#projects"
-              v-scroll-to="'#projects'"
-              @click="menuOpen = false"
+              @click="
+                scrollToSection('projects');
+                menuOpen = false;
+              "
               :class="linkClass('projects', true)"
             >
               Projects
             </a>
             <a
               href="#contact"
-              v-scroll-to="'#contact'"
-              @click="menuOpen = false"
+              @click="
+                scrollToSection('contact');
+                menuOpen = false;
+              "
               :class="linkClass('contact', true)"
             >
               Contact
@@ -100,6 +110,17 @@ const activeSection = ref("home");
 
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value;
+};
+
+const scrollToSection = (sectionId) => {
+  const element = document.getElementById(sectionId);
+  if (element) {
+    const offsetTop = element.offsetTop - 80; // Account for fixed navbar
+    window.scrollTo({
+      top: offsetTop,
+      behavior: "smooth",
+    });
+  }
 };
 
 const updateScrollProgress = () => {

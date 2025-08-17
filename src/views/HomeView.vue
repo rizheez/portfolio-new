@@ -12,7 +12,7 @@ const ContactSection = defineAsyncComponent(() => import("@/components/ContactSe
 <template>
   <main class="w-full">
     <!-- <TheWelcome /> -->
-    <div v-scroll-spy class="w-full">
+    <div class="w-full">
       <section id="home" class="w-full">
         <HomeSection />
       </section>

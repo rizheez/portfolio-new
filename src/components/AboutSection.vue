@@ -59,6 +59,7 @@ import about from "@/assets/images/programming.svg";
 const img = new URL(about, import.meta.url).href;
 const skills = [
   { name: "Vue.js", icon: "fa-brands fa-vuejs" },
+  { name: "React.js", icon: "fa-brands fa-react" },
   { name: "JavaScript", icon: "fa-brands fa-js" },
   { name: "HTML/CSS", icon: "fa-brands fa-html5" },
   { name: "Tailwind CSS", icon: "fa-brands fa-css3-alt" },

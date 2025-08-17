@@ -1,13 +1,53 @@
 <template>
   <section id="projects" class="py-16 bg-gray-100 px-4">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="text-3xl font-bold text-center mb-12" data-aos="fade-down" data-aos-duration="700">
-        My Projects
-      </h2>
-      <div class="grid md:grid-cols-2 gap-8">
+    <div class="max-w-6xl">
+      <div class="grid grid-cols-3 items-center mb-12">
+        <!-- Kolom kiri (kosong) -->
+        <div></div>
+
+        <!-- Judul di tengah -->
+        <h2 class="text-3xl font-bold text-center" data-aos="fade-down" data-aos-duration="700">
+          My Projects
+        </h2>
+
+        <!-- Navigation di kanan -->
+        <div class="flex items-center justify-end space-x-4">
+          <button
+            @click="previousPage"
+            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200 flex items-center space-x-2"
+            :disabled="currentPage === 0"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+              ></path>
+            </svg>
+          </button>
+
+          <button
+            @click="nextPage"
+            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200 flex items-center space-x-2"
+            :disabled="currentPage === totalPages - 1"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <!-- Project Grid -->
+      <div class="grid md:grid-cols-2 gap-8 mb-8">
         <div
-          v-for="(project, index) in projects"
-          :key="index"
+          v-for="(project, index) in displayedProjects"
+          :key="project.title"
           class="project-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300"
           :data-aos="'fade-up'"
           :data-aos-delay="index * 150"
@@ -57,6 +97,19 @@
           </div>
         </div>
       </div>
+
+      <!-- Navigation -->
+      <!-- Page Indicators -->
+      <div class="flex justify-center space-x-4 mt-24">
+        <div
+          v-for="page in totalPages"
+          :key="page"
+          class="w-3 h-3 rounded-full transition-colors duration-200 cursor-pointer"
+          :class="currentPage === page - 1 ? 'bg-blue-500' : 'bg-gray-300'"
+          @click="goToPage(page - 1)"
+        ></div>
+      </div>
+
       <!-- Modal Preview -->
       <div
         v-if="previewImg"
@@ -73,16 +126,47 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const previewImg = ref(null);
+const currentPage = ref(0);
+const projectsPerPage = 4;
 
 function openPreview(img) {
   previewImg.value = img;
 }
+
 function closePreview() {
   previewImg.value = null;
 }
+
+// Navigation functions
+function nextPage() {
+  if (currentPage.value < totalPages.value - 1) {
+    currentPage.value++;
+  }
+}
+
+function previousPage() {
+  if (currentPage.value > 0) {
+    currentPage.value--;
+  }
+}
+
+function goToPage(page) {
+  currentPage.value = page;
+}
+
+// Computed properties
+const totalPages = computed(() => {
+  return Math.ceil(projects.length / projectsPerPage);
+});
+
+const displayedProjects = computed(() => {
+  const start = currentPage.value * projectsPerPage;
+  const end = start + projectsPerPage;
+  return projects.slice(start, end);
+});
 
 const projects = [
   {
@@ -118,6 +202,14 @@ const projects = [
     codeUrl: "https://github.com/rizheez/sistem-penjualan",
   },
   {
+    title: "Personal Finance Tracker",
+    image: new URL("@/assets/images/projects/pft.png", import.meta.url).href,
+    description: "A web application to track personal finances and expenses.",
+    technologies: ["Vue", "Vuetify", "Materio Template"],
+    liveUrl: null,
+    codeUrl: "https://github.com/rizheez/personal-finance-tracker-frontend",
+  },
+  {
     title: "Movie List",
     image: new URL("@/assets/images/projects/movie.png", import.meta.url).href,
     description:
@@ -128,3 +220,25 @@ const projects = [
   },
 ];
 </script>
+
+<style scoped>
+/* Smooth transitions */
+.project-card {
+  transition: all 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Button disabled state */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button:disabled:hover {
+  background-color: rgb(59 130 246);
+}
+</style>
