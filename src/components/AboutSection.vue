@@ -7,32 +7,33 @@
         <div class="md:w-1/3 mb-8 md:mb-0 md:mr-28 flex justify-center" data-aos="fade-right">
           <img
             :src="img"
-            alt="working on a laptop in a cozy cafe environment"
+            alt="Working on a laptop in a cozy cafe environment"
             class="rounded-lg w-120 h-80 object-cover transition-transform hover:scale-105"
           />
         </div>
 
         <!-- Deskripsi dan Skills -->
         <div class="md:w-2/3 md:pl-12" data-aos="fade-left">
-          <p class="text-gray-600 mb-6">
+          <p class="text-gray-700 mb-6">
             I'm an enthusiastic developer with a background in networking and web development. I
             enjoy building web applications using Laravel, Vue.js, and modern JavaScript tools.
           </p>
-          <p class="text-gray-600 mb-8">
+          <p class="text-gray-700 mb-8">
             Currently, I'm looking for remote opportunities where I can grow professionally and
             contribute to Laravel-based projects, either independently or within a team.
           </p>
 
           <!-- Skills -->
           <div class="mb-8" data-aos="zoom-in">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Skills</h3>
-            <div class="flex flex-wrap gap-3">
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Skills</h3>
+            <div class="flex flex-wrap gap-3" role="list" aria-label="Technical skills">
               <span
                 v-for="(skill, index) in skills"
                 :key="index"
-                class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full flex items-center gap-2"
+                class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full flex items-center gap-2 font-medium"
+                role="listitem"
               >
-                <i :class="`${skill.icon} fa-lg`"></i>
+                <i :class="`${skill.icon} fa-lg`" aria-hidden="true"></i>
                 {{ skill.name }}
               </span>
             </div>
@@ -42,8 +43,9 @@
           <a
             href="/assets/resume.pdf"
             download
-            class="px-6 py-2 bg-blue-500 text-white rounded-lg inline-block hover:bg-blue-600 transition"
+            class="px-6 py-3 bg-blue-600 text-white rounded-lg inline-block hover:bg-blue-700 transition-colors font-medium"
             data-aos="fade-up"
+            aria-label="Download my resume (PDF file)"
           >
             Download Resume
           </a>
@@ -71,3 +73,24 @@ const skills = [
   { name: "MySQL", icon: "fa-solid fa-database" },
 ];
 </script>
+
+<style scoped>
+/* Focus styles for accessibility */
+a:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Improve contrast for better accessibility */
+.text-gray-700 {
+  color: #374151;
+}
+
+.text-gray-900 {
+  color: #111827;
+}
+
+.text-blue-800 {
+  color: #1e40af;
+}
+</style>

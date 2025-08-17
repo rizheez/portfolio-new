@@ -35,7 +35,7 @@ import("aos/dist/aos.css").then(() => {
     setTimeout(() => {
       AOS.default.init({
         duration: 600,
-        once: false,
+        once: true,
       });
     }, 100);
   });

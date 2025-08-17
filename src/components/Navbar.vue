@@ -1,18 +1,46 @@
 <template>
-  <nav class="fixed w-full bg-white shadow-sm z-10 left-0 right-0">
+  <nav
+    class="fixed w-full bg-white shadow-sm z-10 left-0 right-0"
+    role="navigation"
+    aria-label="Main navigation"
+  >
     <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
       <div class="flex justify-between items-center">
         <!-- Brand -->
-        <div class="text-xl sm:text-2xl font-bold text-blue-500">MyPortfolio</div>
+        <div class="text-xl sm:text-2xl font-bold text-blue-600">MyPortfolio</div>
 
         <!-- Desktop Menu -->
-        <div class="hidden md:flex space-x-6 lg:space-x-8">
-          <a href="#home" @click="scrollToSection('home')" :class="linkClass('home')"> Home </a>
-          <a href="#about" @click="scrollToSection('about')" :class="linkClass('about')"> About </a>
-          <a href="#projects" @click="scrollToSection('projects')" :class="linkClass('projects')">
+        <div class="hidden md:flex space-x-6 lg:space-x-8" role="menubar">
+          <a
+            href="#home"
+            @click="scrollToSection('home')"
+            :class="linkClass('home')"
+            role="menuitem"
+          >
+            Home
+          </a>
+          <a
+            href="#about"
+            @click="scrollToSection('about')"
+            :class="linkClass('about')"
+            role="menuitem"
+          >
+            About
+          </a>
+          <a
+            href="#projects"
+            @click="scrollToSection('projects')"
+            :class="linkClass('projects')"
+            role="menuitem"
+          >
             Projects
           </a>
-          <a href="#contact" @click="scrollToSection('contact')" :class="linkClass('contact')">
+          <a
+            href="#contact"
+            @click="scrollToSection('contact')"
+            :class="linkClass('contact')"
+            role="menuitem"
+          >
             Contact
           </a>
         </div>
@@ -21,8 +49,18 @@
         <button
           @click="toggleMenu"
           class="md:hidden focus:outline-none p-2 rounded-md hover:bg-gray-100 transition-colors touch-manipulation"
+          aria-label="Toggle mobile menu"
+          aria-expanded="false"
+          :aria-expanded="menuOpen"
+          aria-controls="mobile-menu"
         >
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -44,7 +82,10 @@
       >
         <div
           v-show="menuOpen"
+          id="mobile-menu"
           class="md:hidden mt-3 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden"
+          role="menu"
+          aria-label="Mobile navigation menu"
         >
           <div class="py-1">
             <a
@@ -54,6 +95,7 @@
                 menuOpen = false;
               "
               :class="linkClass('home', true)"
+              role="menuitem"
             >
               Home
             </a>
@@ -64,6 +106,7 @@
                 menuOpen = false;
               "
               :class="linkClass('about', true)"
+              role="menuitem"
             >
               About
             </a>
@@ -74,6 +117,7 @@
                 menuOpen = false;
               "
               :class="linkClass('projects', true)"
+              role="menuitem"
             >
               Projects
             </a>
@@ -84,6 +128,7 @@
                 menuOpen = false;
               "
               :class="linkClass('contact', true)"
+              role="menuitem"
             >
               Contact
             </a>
@@ -92,9 +137,17 @@
       </transition>
     </div>
     <!-- Progress Bar -->
-    <div class="w-full h-1 bg-gray-200">
+    <div
+      class="w-full h-1 bg-gray-200"
+      role="progressbar"
+      aria-label="Page scroll progress"
+      aria-valuenow="0"
+      :aria-valuenow="Math.round(scrollProgress)"
+      aria-valuemin="0"
+      aria-valuemax="100"
+    >
       <div
-        class="h-1 bg-blue-500 transition-all duration-200"
+        class="h-1 bg-blue-600 transition-all duration-200"
         :style="{ width: scrollProgress + '%' }"
       ></div>
     </div>
@@ -176,9 +229,9 @@ const handleResize = () => {
 const linkClass = (id, isMobile = false) => {
   const base = isMobile
     ? "block px-4 py-3 text-sm font-medium transition-colors duration-200 hover:bg-blue-50 active:bg-blue-100 rounded-md mx-2 touch-manipulation"
-    : "nav-link hover:text-blue-500";
+    : "nav-link hover:text-blue-600";
   const active =
-    activeSection.value === id ? "text-blue-500 font-semibold active" : "text-gray-600";
+    activeSection.value === id ? "text-blue-600 font-semibold active" : "text-gray-700";
   return `${base} ${active}`;
 };
 </script>
@@ -195,7 +248,7 @@ const linkClass = (id, isMobile = false) => {
   left: 0;
   width: 0;
   height: 2px;
-  background-color: #3b82f6;
+  background-color: #2563eb;
   transition: width 0.3s;
 }
 .nav-link:hover::after {
@@ -203,6 +256,13 @@ const linkClass = (id, isMobile = false) => {
 }
 .nav-link.active::after {
   width: 100%;
+}
+
+// Focus styles for accessibility
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
 }
 
 // Fix white line issue and prevent overflow

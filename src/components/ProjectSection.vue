@@ -14,10 +14,18 @@
         <div class="flex items-center justify-end space-x-4">
           <button
             @click="previousPage"
-            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200 flex items-center space-x-2"
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center space-x-2"
             :disabled="currentPage === 0"
+            aria-label="Go to previous page of projects"
+            :aria-disabled="currentPage === 0"
           >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -25,14 +33,23 @@
                 d="M15 19l-7-7 7-7"
               ></path>
             </svg>
+            <span class="sr-only">Previous</span>
           </button>
 
           <button
             @click="nextPage"
-            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200 flex items-center space-x-2"
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center space-x-2"
             :disabled="currentPage === totalPages - 1"
+            aria-label="Go to next page of projects"
+            :aria-disabled="currentPage === totalPages - 1"
           >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -40,6 +57,7 @@
                 d="M9 5l7 7-7 7"
               ></path>
             </svg>
+            <span class="sr-only">Next</span>
           </button>
         </div>
       </div>
@@ -55,21 +73,25 @@
         >
           <img
             :src="project.image"
-            :alt="project.title"
+            :alt="`Screenshot of ${project.title} project`"
             class="w-full object-cover cursor-pointer hover:scale-110 hover:translate-y-1 transition-transform duration-300"
             @click="openPreview(project.image)"
             data-aos="zoom-in"
             data-aos-delay="index * 200"
             data-aos-duration="600"
+            role="button"
+            tabindex="0"
+            @keydown.enter="openPreview(project.image)"
+            @keydown.space="openPreview(project.image)"
           />
           <div class="p-6">
-            <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ project.title }}</h3>
-            <p class="text-gray-600 mb-4">{{ project.description }}</p>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ project.title }}</h3>
+            <p class="text-gray-700 mb-4">{{ project.description }}</p>
             <div class="flex flex-wrap gap-2 mb-4">
               <span
                 v-for="(tech, idx) in project.technologies"
                 :key="idx"
-                class="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs"
+                class="px-2 py-1 bg-gray-200 text-gray-800 rounded-full text-xs font-medium"
                 data-aos="fade-right"
                 :data-aos-delay="idx * 100"
               >
@@ -80,16 +102,20 @@
               <a
                 v-if="project.liveUrl"
                 :href="project.liveUrl"
-                class="text-blue-500 hover:underline"
+                class="text-blue-600 hover:text-blue-800 hover:underline font-medium"
                 target="_blank"
+                rel="noopener noreferrer"
+                :aria-label="`View live demo of ${project.title} (opens in new tab)`"
               >
                 View Live
               </a>
               <a
                 v-if="project.codeUrl"
                 :href="project.codeUrl"
-                class="text-blue-500 hover:underline"
+                class="text-blue-600 hover:text-blue-800 hover:underline font-medium"
                 target="_blank"
+                rel="noopener noreferrer"
+                :aria-label="`View source code of ${project.title} (opens in new tab)`"
               >
                 Source Code
               </a>
@@ -98,16 +124,17 @@
         </div>
       </div>
 
-      <!-- Navigation -->
       <!-- Page Indicators -->
       <div class="flex justify-center space-x-4 mt-24">
-        <div
+        <button
           v-for="page in totalPages"
           :key="page"
           class="w-3 h-3 rounded-full transition-colors duration-200 cursor-pointer"
-          :class="currentPage === page - 1 ? 'bg-blue-500' : 'bg-gray-300'"
+          :class="currentPage === page - 1 ? 'bg-blue-600' : 'bg-gray-400'"
           @click="goToPage(page - 1)"
-        ></div>
+          :aria-label="`Go to page ${page} of projects`"
+          :aria-current="currentPage === page - 1 ? 'page' : undefined"
+        ></button>
       </div>
 
       <!-- Modal Preview -->
@@ -115,9 +142,20 @@
         v-if="previewImg"
         class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
         @click.self="closePreview"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
       >
-        <img :src="previewImg" alt="Preview" class="max-w-full max-h-[80vh] rounded-lg shadow-lg" />
-        <button class="absolute top-6 right-8 text-white text-3xl font-bold" @click="closePreview">
+        <img
+          :src="previewImg"
+          alt="Project preview"
+          class="max-w-full max-h-[80vh] rounded-lg shadow-lg"
+        />
+        <button
+          class="absolute top-6 right-8 text-white text-3xl font-bold hover:text-gray-300 transition-colors"
+          @click="closePreview"
+          aria-label="Close preview"
+        >
           &times;
         </button>
       </div>
@@ -239,6 +277,27 @@ button:disabled {
 }
 
 button:disabled:hover {
-  background-color: rgb(59 130 246);
+  background-color: rgb(37 99 235);
+}
+
+/* Focus styles for accessibility */
+button:focus-visible,
+a:focus-visible,
+img[role="button"]:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 </style>
